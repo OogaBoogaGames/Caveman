@@ -1,0 +1,15 @@
+[workspace]
+resolver = "2"
+members = [
+    "libcaveman",
+    "bonk",
+    "flint"
+]
+default-members = [
+    "libcaveman",
+    "bonk"
+]
+
+[profile.release]
+opt-level = "z"
+lto = true

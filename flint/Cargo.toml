@@ -1,0 +1,19 @@
+[package]
+name = "flint"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+name = "flint"
+path="src/lib.rs"
+
+[dependencies]
+wasm-bindgen = "0.2.87"
+web-sys = { version = "0.3.4", features = [ 'Document', 'Element', 'HtmlElement', 'Node', 'Window', ] }
+caveman = { path = "../libcaveman" }
+js-sys = "0.3.64"
+
+[profile.release]
+opt-level = "z"
+lto = true

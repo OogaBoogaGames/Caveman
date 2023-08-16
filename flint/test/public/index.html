@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Flint test</title>
+  </head>
+  <body>
+    <script type="module">
+      import init, { libcaveman_info } from "./flint/flint.js";
+
+      async function run() {
+        await init();
+        let infoContainer = document.createElement("p");
+        infoContainer.innerText = libcaveman_info();
+        document.body.appendChild(infoContainer);
+      }
+      run();
+    </script>
+  </body>
+</html>

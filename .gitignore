@@ -1,0 +1,10 @@
+debug/
+target/
+
+flint/dist/
+
+flint/test/node_modules
+
+**/*.rs.bk
+
+*.pdb
