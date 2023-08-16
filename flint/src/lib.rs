@@ -12,3 +12,8 @@ extern "C" {
 pub fn libcaveman_info() -> JsString {
     JsString::from(info())
 }
+
+// #[wasm_bindgen]
+// pub fn fetch_bundle() {
+//     TODO
+// }
