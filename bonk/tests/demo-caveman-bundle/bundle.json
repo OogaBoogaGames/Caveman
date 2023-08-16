@@ -1,0 +1,31 @@
+{
+  "title": "Demo Caveman Bundle",
+  "description": "Caveman Asset Bundle created for demonstration purposes.",
+  "provides": "4a56ec64-4afc-4260-a09a-a326b74660c3",
+  "assets": [
+    {
+      "token": "something",
+      "compress": true,
+      "mime_type": "text/plain",
+      "path": "assets/something.txt"
+    },
+    {
+      "token": "background",
+      "compress": true,
+      "mime_type": "video/mp4",
+      "path": "assets/background.mp4"
+    },
+    {
+      "token": "characters.gnu",
+      "compress": true,
+      "mime_type": "image/png",
+      "path": "assets/characters/gnu.png"
+    },
+    {
+      "token": "characters.tux",
+      "compress": true,
+      "mime_type": "image/svg+xml",
+      "path": "assets/characters/tux"
+    }
+  ]
+}
