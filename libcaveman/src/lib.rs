@@ -1,4 +1,4 @@
-pub mod protobuf {
+pub mod proto {
     include!(concat!(env!("OUT_DIR"), "/protobuf/mod.rs"));
 }
 
