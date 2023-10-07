@@ -1,11 +1,13 @@
 {
   "name": "flint-test-server",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "start": "node index.js"
+    "start": "bun index.ts"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "baojs": "^0.2.1",
+    "bun": "^1.0.4",
+    "serve-static-bun": "^0.5.3"
   }
 }
