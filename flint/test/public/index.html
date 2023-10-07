@@ -6,13 +6,23 @@
   </head>
   <body>
     <script type="module">
-      import init, { libcaveman_info } from "./flint/flint.js";
+      import init, { libcaveman_info, FlintBundle } from "./flint/flint.js";
 
       async function run() {
         await init();
         let infoContainer = document.createElement("p");
         infoContainer.innerText = libcaveman_info();
         document.body.appendChild(infoContainer);
+        window.FlintBundle = FlintBundle;
+        let bundle = new FlintBundle(
+          "http://localhost:8080/assets/bundle/games.oogabooga.sprites.cvmn"
+        )
+        await bundle.load()
+        console.log(bundle)
+
+        let img = document.createElement("img");
+        img.src = URL.createObjectURL(await bundle.get_asset("__obg__.cavemanclub.1"));
+        document.body.appendChild(img);
       }
       run();
     </script>
