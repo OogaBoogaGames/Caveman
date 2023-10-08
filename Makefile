@@ -14,10 +14,10 @@ workspace/clean:
 	cargo clean
 
 flint/build:
-	cd flint; wasm-pack build --target web --out-name flint --out-dir dist
+	cd flint; wasm-pack build --target web --scope oogaboogagames --out-name flint
 
 flint/build-release:
-	cd flint; wasm-pack build --release --target web --out-name flint --out-dir dist
+	cd flint; wasm-pack build --release --target web --scope oogaboogagames --out-name flint
 
 flint/clean:
 	cd flint; cargo clean; rm -rf dist/

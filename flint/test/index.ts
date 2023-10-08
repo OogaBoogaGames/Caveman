@@ -5,7 +5,7 @@ const app = new Bao();
 
 app.get(
     "/flint/*any",
-    serveStatic("../dist", { middlewareMode: "bao", stripFromPathname: "/flint" }),
+    serveStatic("../pkg", { middlewareMode: "bao", stripFromPathname: "/flint" }),
 );
 
 app.get("/", (ctx) => {
