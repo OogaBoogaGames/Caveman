@@ -8,3 +8,4 @@ flint/test/node_modules
 **/*.rs.bk
 
 *.pdb
+*.cvmn
