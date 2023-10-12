@@ -1,6 +1,7 @@
 use caveman::{info, proto::Caveman::CavemanBundle};
 use js_sys::{JsString, Uint8Array};
 use protobuf::Message;
+use url::Url;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::JsFuture;
 use web_sys::{Blob, BlobPropertyBag, Request, RequestInit, RequestMode, Response};
@@ -9,14 +10,14 @@ use zstd::decode_all;
 #[derive(Debug)]
 #[wasm_bindgen]
 pub struct FlintBundle {
-    url: String,
+    package_id: String,
     caveman_bundle: Option<CavemanBundle>,
 }
 
 #[wasm_bindgen]
 extern "C" {
     #[wasm_bindgen(js_namespace = console)]
-    fn log(s: &str);
+    fn error(s: &str);
 }
 
 #[wasm_bindgen]
@@ -27,7 +28,7 @@ pub fn libcaveman_info() -> JsString {
 #[wasm_bindgen]
 impl FlintBundle {
     pub async fn get_asset(&self, token: String) -> Result<Blob, JsError> {
-        return match self.caveman_bundle.clone() {
+        return match &self.caveman_bundle {
             Some(bundle) => match bundle.assets.iter().find(|element| element.token == token) {
                 Some(asset) => {
                     let mut options = BlobPropertyBag::new();
@@ -64,25 +65,32 @@ impl FlintBundle {
         };
     }
     #[wasm_bindgen(constructor)]
-    pub fn new(url: String) -> FlintBundle {
+    pub fn new(package_id: String) -> FlintBundle {
         FlintBundle {
-            url,
+            package_id,
             caveman_bundle: None,
         }
     }
-    pub async fn load(&mut self) {
-        let bytes = get_bundle_bytes(self.url.clone()).await;
-
-        self.caveman_bundle = Some(CavemanBundle::parse_from_bytes(&bytes).unwrap());
+    pub async fn load(&mut self, mirror: String) {
+        match Url::parse(&mirror) {
+            Ok(url) => match url.join(&self.package_id) {
+                Ok(url) => {
+                    let bytes = fetch_bundle_bytes(url).await;
+                    self.caveman_bundle = Some(CavemanBundle::parse_from_bytes(&bytes).unwrap());
+                }
+                Err(err) => error(&format!("Failed to finalize Url: {}", err)),
+            },
+            Err(err) => error(&format!("Failed to parse Url: {}", err)),
+        }
     }
 }
 
-async fn get_bundle_bytes(url: String) -> Vec<u8> {
+async fn fetch_bundle_bytes(url: Url) -> Vec<u8> {
     let mut opts = RequestInit::new();
     opts.method("GET");
     opts.mode(RequestMode::Cors);
 
-    let request: Request = Request::new_with_str_and_init(&url, &opts).unwrap();
+    let request: Request = Request::new_with_str_and_init(url.as_str(), &opts).unwrap();
 
     let window: web_sys::Window = web_sys::window().unwrap();
     let resp_value: JsValue = JsFuture::from(window.fetch_with_request(&request))

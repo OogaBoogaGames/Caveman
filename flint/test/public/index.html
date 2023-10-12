@@ -14,10 +14,8 @@
         infoContainer.innerText = libcaveman_info();
         document.body.appendChild(infoContainer);
         window.FlintBundle = FlintBundle;
-        let bundle = new FlintBundle(
-          "http://localhost:8080/assets/bundle/games.oogabooga.sprites.cvmn"
-        )
-        await bundle.load()
+        let bundle = new FlintBundle("games.oogabooga.sprites")
+        await bundle.load("http://localhost:8080/assets/bundle/")
         console.log(bundle)
 
         window.setAsset = async (asset) => { 
