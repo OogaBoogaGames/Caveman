@@ -139,7 +139,7 @@ dependencies = [
 
 [[package]]
 name = "bonk"
-version = "0.1.0"
+version = "0.2.1"
 dependencies = [
  "caveman",
  "clap",
@@ -349,6 +349,7 @@ dependencies = [
  "futures",
  "js-sys",
  "protobuf",
+ "scorched",
  "url",
  "wasm-bindgen",
  "wasm-bindgen-futures",

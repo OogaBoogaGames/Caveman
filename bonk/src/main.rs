@@ -66,11 +66,10 @@ async fn main() {
             hasher.update(asset_bytes.clone());
             bundled_asset.sum = hasher.finalize().to_vec();
 
-            if bundled_asset.compressed {
-                bundled_asset.data = encode_all(asset_bytes.as_slice(), 0).unwrap()
-            } else {
-                bundled_asset.data = asset_bytes;
-            }
+            bundled_asset.data = match asset.compress {
+                true => encode_all(asset_bytes.as_slice(), 0).unwrap(),
+                false => asset_bytes,
+            };
 
             println!(
                 "Processed {} asset with token: {}",
@@ -91,7 +90,7 @@ async fn main() {
 
     log_this(LogData {
         importance: LogImportance::Info,
-        message: format!("Wrote bundle to {}", args.out.display()),
+        message: format!("Wrote {} assets to bundle at {}", bundle.assets.len(), args.out.display()),
     })
     .await;
 }
