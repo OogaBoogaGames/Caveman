@@ -10,10 +10,10 @@ caveman = { path = "../libcaveman" }
 clap = { version = "4.4.6", features = [ "derive" ] }
 hex = "0.4.3"
 protobuf = "3.3.0"
-serde = { version = "1.0.188", features = [ "derive" ] }
+serde = { version = "1.0.189", features = [ "derive" ] }
 serde_json = "1.0.107"
 sha2 = "0.10.8"
 zstd = "0.13.0"
-scorched = "0.2.8"
+scorched = "0.2.9"
 tokio = { version = "1.33.0", features = [ "full" ] }
 rayon = "1.8.0"
