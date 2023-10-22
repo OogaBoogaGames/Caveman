@@ -1,7 +1,6 @@
 use caveman::{info, proto::Caveman::CavemanBundle};
 use js_sys::{JsString, Uint8Array};
 use protobuf::Message;
-use scorched::*;
 use url::Url;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::JsFuture;
@@ -42,24 +41,12 @@ impl FlintBundle {
                             ) {
                                 Ok(blob) => Ok(blob),
                                 Err(e) => {
-                                    log_this(LogData {
-                                        importance: LogImportance::Error,
-                                        message: format!("Could not create blob: {:?}", e),
-                                    })
-                                    .await;
-
                                     Err(JsError::new(
                                         format!("Could not create blob: {:?}", e).as_str(),
                                     ))
                                 }
                             },
                             Err(e) => {
-                                log_this(LogData {
-                                    importance: LogImportance::Error,
-                                    message: format!("Could not decompress asset: {}", e),
-                                })
-                                .await;
-
                                 Err(JsError::new(
                                     format!("Could not decompress asset: {}", e).as_str(),
                                 ))
@@ -71,12 +58,6 @@ impl FlintBundle {
                         ) {
                             Ok(blob) => Ok(blob),
                             Err(e) => {
-                                log_this(LogData {
-                                    importance: LogImportance::Error,
-                                    message: format!("Could not create blob: {:?}", e),
-                                })
-                                .await;
-
                                 Err(JsError::new(
                                     format!("Could not create blob: {:?}", e).as_str(),
                                 ))
@@ -85,22 +66,10 @@ impl FlintBundle {
                     }
                 }
                 None => {
-                    log_this(LogData {
-                        importance: LogImportance::Error,
-                        message: format!("Bundle does not satisfy token."),
-                    })
-                    .await;
-
                     Err(JsError::new("Bundle does not satisfy token."))
                 }
             },
             None => {
-                log_this(LogData {
-                    importance: LogImportance::Error,
-                    message: format!("Bundle has not been loaded yet."),
-                })
-                .await;
-
                 Err(JsError::new("Bundle has not been loaded yet."))
             }
         };
@@ -120,22 +89,10 @@ impl FlintBundle {
                     self.caveman_bundle = Some(CavemanBundle::parse_from_bytes(&bytes).unwrap());
                 }
                 Err(err) => {
-                    log_this(LogData {
-                        importance: LogImportance::Error,
-                        message: format!("Failed to finalize Url: {}", err),
-                    })
-                    .await;
-
                     error(&format!("Failed to finalize Url: {}", err))
                 }
             },
             Err(err) => {
-                log_this(LogData {
-                    importance: LogImportance::Error,
-                    message: format!("Failed to parse Url: {}", err),
-                })
-                .await;
-
                 error(&format!("Failed to parse Url: {}", err))
             }
         }
