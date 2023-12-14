@@ -27,11 +27,7 @@ struct Arguments {
 async fn main() {
     let args = Arguments::parse();
 
-    log_this(LogData {
-        importance: LogImportance::Info,
-        message: format!("Reading {}", args.manifest.display()),
-    })
-    .await;
+    logf!(Info, "Reading {}", args.manifest.display());
 
     let manifest: BundleManifest =
         serde_json::from_reader(File::open(args.manifest.clone()).unwrap()).unwrap();
@@ -88,9 +84,10 @@ async fn main() {
 
     write(args.out.clone(), bundle.write_to_bytes().unwrap()).unwrap();
 
-    log_this(LogData {
-        importance: LogImportance::Info,
-        message: format!("Wrote {} assets to bundle at {}", bundle.assets.len(), args.out.display()),
-    })
-    .await;
+    logf!(
+        Info,
+        "Wrote {} assets to bundle at {}",
+        bundle.assets.len(),
+        args.out.display()
+    );
 }
