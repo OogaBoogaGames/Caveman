@@ -1,5 +1,6 @@
 mod assets;
 mod game;
+mod init;
 mod manifest;
 
 use clap::{arg, Parser, Subcommand, ValueHint};
@@ -36,6 +37,11 @@ enum Commands {
         #[arg(short = 'o', long = "out", value_name = "output", value_hint = ValueHint::DirPath, help = "The name of the output bundle")]
         out: std::path::PathBuf,
     },
+    #[command(author, version, about, long_about = "Init a game.")]
+    InitGame {
+        #[arg(value_name = "dir", value_hint = ValueHint::DirPath, help = "Directory to init game in")]
+        dir: std::path::PathBuf,
+    },
 }
 
 #[tokio::main]
@@ -49,5 +55,6 @@ async fn main() {
             standalone,
             out,
         } => bundle_game(manifest, standalone, out).await,
+        Commands::InitGame { dir } => init::init_game(dir),
     }
 }
