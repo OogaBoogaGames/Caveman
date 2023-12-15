@@ -20,9 +20,7 @@ pub fn init_game(path: &PathBuf) {
             "games.oogabooga.sprites".into(),
             Some("https://api.oogabooga.games/assets".into()),
         )],
-        build: BuildOption::NoBuild {
-            file: "game".into(),
-        },
+        build: BuildOption::BunBuild { file: None },
     };
     manifest_file
         .write_all(
