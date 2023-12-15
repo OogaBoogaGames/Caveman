@@ -1,7 +1,7 @@
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
-pub struct BundleManifest {
+pub struct AssetBundleManifest {
     pub title: String,
     pub description: String,
     pub provides: String,
