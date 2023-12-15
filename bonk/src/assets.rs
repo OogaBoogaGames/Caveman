@@ -21,7 +21,6 @@ pub async fn bundle_assets(manifest_path: &PathBuf, out_path: &PathBuf) {
     let mut bundle = CavemanBundle::new();
     bundle.title = manifest.title;
     bundle.description = manifest.description;
-    bundle.provides = manifest.provides;
 
     let bundled_assets: Vec<CavemanAsset> = manifest
         .assets

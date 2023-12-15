@@ -3,16 +3,30 @@ syntax = "proto3";
 package caveman;
 
 message CavemanAsset {
-    string token = 1;                 // "token" that will be replaced with this asset 
-    bytes data = 2;                   // Raw bytes of asset
-    bytes sum = 3;                    // SHA256 sum of uncompressed asset
-    bool compressed = 4;              // Whether or not this asset is compressed (ALL COMPRESSION IS DONE VIA ZSTD)
-    string type = 5;                  // MIME type of asset 
+    string token = 1;                            // "token" that will be replaced with this asset 
+    bytes data = 2;                              // Raw bytes of asset
+    bytes sum = 3;                               // SHA256 sum of uncompressed asset
+    bool compressed = 4;                         // Whether or not this asset is compressed (ALL COMPRESSION IS DONE VIA ZSTD)
+    string type = 5;                             // MIME type of asset 
 }
 
 message CavemanBundle {
-    string title = 1;                 // Title for this asset bundle 
-    string description = 2;           // Description of this asset bundle 
-    string provides = 3;              // The id of the game that the bundle provides assets for
-    repeated CavemanAsset assets = 4; // Assets included in the bundle
+    string title = 1;                            // Title for this asset bundle 
+    string description = 2;                      // Description of this asset bundle 
+    reserved 3;                                  // Previously used for game id, now unused.
+    repeated CavemanAsset assets = 4;            // Assets included in the bundle
+}
+
+message CavemanGameBundle {
+    string title = 1;                            // Title for this game
+    string description = 2;                      // Description of this game
+    bytes runtime = 4;                           // Raw bytes of the game runtime (js)
+    repeated BundleIdentifier bundles = 5;       // Bundles for this game
+}
+
+message BundleIdentifier {
+    oneof identifier {                           // Store either the bundle or the bundle id          
+        CavemanBundle bundle = 1;                // Bundle for this game
+        string bundle_id = 2;                    // Id of bundle for this game
+    }
 }
