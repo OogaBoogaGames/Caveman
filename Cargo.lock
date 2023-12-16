@@ -144,25 +144,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "bonk"
-version = "0.2.1"
-dependencies = [
- "caveman",
- "clap",
- "futures",
- "hex",
- "protobuf",
- "rayon",
- "reqwest",
- "scorched",
- "serde",
- "serde_json",
- "sha2",
- "tokio",
- "zstd",
-]
-
-[[package]]
 name = "bumpalo"
 version = "3.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -177,6 +158,17 @@ checksum = "a2bd12c1caf447e69cd4528f47f94d203fd2582878ecb9e9465484c4148a8223"
 [[package]]
 name = "caveman"
 version = "0.1.0"
+dependencies = [
+ "protobuf",
+ "protobuf-codegen",
+ "rustc_version_runtime",
+]
+
+[[package]]
+name = "caveman"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "23a4bf0273d132cd91e13df86a184c910c32dcf9021132b1948ef8de59816b87"
 dependencies = [
  "protobuf",
  "protobuf-codegen",
@@ -378,7 +370,7 @@ checksum = "25cbce373ec4653f1a01a31e8a5e5ec0c622dc27ff9c4e6606eefef5cbbed4a5"
 name = "flint"
 version = "0.1.2"
 dependencies = [
- "caveman",
+ "caveman 0.1.0",
  "futures",
  "js-sys",
  "protobuf",
@@ -846,6 +838,25 @@ checksum = "4161fcb6d602d4d2081af7c3a45852d875a03dd337a6bfdd6e06407b61342a43"
 dependencies = [
  "hermit-abi",
  "libc",
+]
+
+[[package]]
+name = "obg-bonk"
+version = "0.2.1"
+dependencies = [
+ "caveman 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "clap",
+ "futures",
+ "hex",
+ "protobuf",
+ "rayon",
+ "reqwest",
+ "scorched",
+ "serde",
+ "serde_json",
+ "sha2",
+ "tokio",
+ "zstd",
 ]
 
 [[package]]

@@ -1,12 +1,18 @@
 [package]
-name = "bonk"
+name = "obg-bonk"
+description = "Asset and game bundler for OogaBoogaGames, using the Caveman format."
+license = "GPL-3.0-or-later"
 version = "0.2.1"
 edition = "2021"
+
+[[bin]]
+name = "bonk"
+path = "src/main.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-caveman = { path = "../libcaveman" }
+caveman = "0.1.0"
 clap = { version = "4.4.11", features = ["derive"] }
 hex = "0.4.3"
 protobuf = "3.3.0"
