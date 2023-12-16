@@ -13,10 +13,12 @@ use zstd::encode_all;
 
 use crate::manifest::AssetBundleManifest;
 pub async fn bundle_assets(manifest_path: &PathBuf, out_path: &PathBuf) {
-    logf!(Info, "Reading {}", &manifest_path.display());
+    let canonical_path = &manifest_path.canonicalize().unwrap();
+
+    logf!(Info, "Reading {}", &canonical_path.display());
 
     let manifest: AssetBundleManifest =
-        serde_json::from_reader(File::open(&manifest_path).unwrap()).unwrap();
+        serde_json::from_reader(File::open(&canonical_path).unwrap()).unwrap();
 
     let mut bundle = CavemanBundle::new();
     bundle.title = manifest.title;
@@ -32,7 +34,7 @@ pub async fn bundle_assets(manifest_path: &PathBuf, out_path: &PathBuf) {
             bundled_asset.compressed = asset.compress;
 
             let mut asset_file = File::open(
-                manifest_path
+                canonical_path
                     .parent()
                     .unwrap()
                     .to_path_buf()

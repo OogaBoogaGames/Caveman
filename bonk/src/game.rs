@@ -3,6 +3,7 @@ pub use std::path::PathBuf;
 use std::{
     fs::{self, File},
     io::Read,
+    path::Path,
     process::Command,
 };
 
@@ -20,10 +21,12 @@ use crate::manifest::{
     AssetBundleDescriptor, AssetBundleManifest, BuildOption, GameBundleManifest,
 };
 pub async fn bundle_game(manifest_path: &PathBuf, standalone: &bool, out_path: &PathBuf) {
-    logf!(Info, "Reading {}", &manifest_path.display());
+    let canonical_path = &manifest_path.canonicalize().unwrap();
+
+    logf!(Info, "Reading {}", &canonical_path.display());
 
     let manifest: GameBundleManifest =
-        serde_json::from_reader(File::open(&manifest_path).unwrap()).unwrap();
+        serde_json::from_reader(File::open(&canonical_path).unwrap()).unwrap();
 
     let mut bundle = CavemanGameBundle::new();
     bundle.title = manifest.title;
@@ -84,6 +87,8 @@ pub async fn bundle_game(manifest_path: &PathBuf, standalone: &bool, out_path: &
         }
     }
 
+    let parent_dir = canonical_path.parent().unwrap();
+
     let bytes = match manifest.build {
         BuildOption::NoBuild { file } => {
             let mut file = File::open(file).unwrap();
@@ -93,7 +98,7 @@ pub async fn bundle_game(manifest_path: &PathBuf, standalone: &bool, out_path: &
         }
         BuildOption::BunBuild { file } => {
             Command::new("bun")
-                .current_dir(manifest_path.parent().unwrap())
+                .current_dir(&parent_dir)
                 .arg("run")
                 .arg("build")
                 .spawn()
@@ -101,15 +106,7 @@ pub async fn bundle_game(manifest_path: &PathBuf, standalone: &bool, out_path: &
                 .wait()
                 .unwrap();
 
-            let path = file.unwrap_or(
-                manifest_path
-                    .parent()
-                    .unwrap()
-                    .join("dist/index.js")
-                    .to_str()
-                    .unwrap()
-                    .into(),
-            );
+            let path = file.unwrap_or(parent_dir.join("dist/index.js").to_str().unwrap().into());
             let mut file = File::open(path).unwrap();
             let mut bytes = Vec::new();
 
@@ -118,7 +115,7 @@ pub async fn bundle_game(manifest_path: &PathBuf, standalone: &bool, out_path: &
         }
         BuildOption::CustomBuild { command, file } => {
             Command::new("sh")
-                .current_dir(manifest_path.parent().unwrap())
+                .current_dir(parent_dir)
                 .arg("-c")
                 .arg(command)
                 .spawn()
